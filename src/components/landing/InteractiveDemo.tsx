@@ -1470,8 +1470,8 @@ const lockTimeAndGoConfirm = () => {
             to a match you love, to a table within 45 minutes that suits you both.
           </motion.p>
         </AnimatedSection>
-
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 md:gap-14">
+          
           {/* Phone mockup */}
           <AnimatedSection>
             <div className="relative">
@@ -1479,9 +1479,13 @@ const lockTimeAndGoConfirm = () => {
               <div className="relative w-[290px] h-[600px] rounded-[2.6rem] bg-gradient-to-b from-neutral-900 to-black p-2 shadow-[0_30px_90px_rgba(0,0,0,0.7)] border border-white/10">
                 <div className="relative w-full h-full rounded-[2.1rem] bg-background overflow-hidden">
                   {/* dynamic island */}
-                  <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-6 rounded-full bg-black/80" />
-
-                  {/* header: back + brand */}
+<div className="absolute top-3 left-1/2 -translate-x-1/2">
+      <div
+        className="w-24 h-6 rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+        style={{ backgroundColor: "#000000" }}
+      />
+    </div>
+  {/* header: back + brand */}
                   <div className="relative z-10 flex items-center justify-between px-3 pt-8 pb-3 bg-background/95">
                     <button
                       type="button"
@@ -1549,20 +1553,18 @@ const lockTimeAndGoConfirm = () => {
               <motion.button
                 onClick={goBack}
                 disabled={currentScreen === 1}
-                className="hidden md:flex absolute -left-12 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/90 border border-neutral-200 items-center justify-center text-neutral-800 shadow-[0_10px_30px_rgba(15,23,42,0.2)] disabled:opacity-30 disabled:cursor-not-allowed"
                 whileHover={currentScreen === 1 ? {} : { y: -2 }}
                 whileTap={currentScreen === 1 ? {} : { scale: 0.96 }}
               >
-                <ChevronLeft className="w-5 h-5" />
+
               </motion.button>
               <motion.button
                 onClick={goNext}
                 disabled={currentScreen === 9}
-                className="hidden md:flex absolute -right-12 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/90 border border-neutral-200 items-center justify-center text-neutral-800 shadow-[0_10px_30px_rgba(15,23,42,0.2)] disabled:opacity-30 disabled:cursor-not-allowed"
                 whileHover={currentScreen === 9 ? {} : { y: -2 }}
                 whileTap={currentScreen === 9 ? {} : { scale: 0.96 }}
               >
-                <ChevronRight className="w-5 h-5" />
+
               </motion.button>
             </div>
           </AnimatedSection>

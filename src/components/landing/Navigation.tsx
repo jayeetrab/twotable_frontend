@@ -12,7 +12,7 @@ export function Navigation() {
     const onScroll = () => {
       const hero = document.getElementById("hero");
       const heroHeight = hero ? hero.offsetHeight : window.innerHeight;
-      setIsPastHero(window.scrollY > heroHeight - 80); // adjust 80 if needed
+      setIsPastHero(window.scrollY > heroHeight - 80);
     };
 
     onScroll();
@@ -21,6 +21,13 @@ export function Navigation() {
   }, []);
 
   const isVenuesPage = location === "/venues";
+
+  const items = [
+    { label: "Home", id: "", path: "/", section: null },
+    { label: "How it works", id: "how-it-works", path: "/works", section: null },
+    { label: "About", id: "about", path: "/about", section: null },
+    { label: "FAQ", id: "faq", path: "/", section: "faq" },
+  ];
 
   return (
     <motion.nav
@@ -33,7 +40,7 @@ export function Navigation() {
         {/* Blurred pill background */}
         <div
           className={`absolute inset-0 rounded-full transition-all duration-300 backdrop-blur-xl ${
-            isPastHero
+            isVenuesPage || isPastHero
               ? "bg-white/95 border border-neutral-200 shadow-lg shadow-black/5"
               : "bg-white/10 border border-white/20"
           }`}
@@ -44,24 +51,21 @@ export function Navigation() {
           <Link href="/" className="cursor-pointer" data-testid="link-home">
             <Logo
               size="sm"
-              className={isPastHero ? "text-neutral-900" : "text-white"}
+              className={
+                isVenuesPage || isPastHero ? "text-neutral-900" : "text-white"
+              }
             />
           </Link>
 
           <div className="hidden md:flex items-center">
             <div
               className={`flex items-center gap-1 rounded-full px-1 py-1 shadow-sm transition-all duration-300 ${
-                isPastHero
+                isVenuesPage || isPastHero
                   ? "border border-neutral-200 bg-white"
                   : "border border-white/10 bg-white/5"
               }`}
             >
-              {[
-                { label: "Home", id: "", path: "/", section: null },
-                { label: "How it works", id: "how-it-works", path: "/works", section: null },
-                { label: "About", id: "about", path: "/about", section: null },
-                { label: "FAQ", id: "faq", path: "/", section: "faq" },
-              ].map((item) =>
+              {items.map((item) =>
                 item.section ? (
                   <button
                     key={item.label}
@@ -75,7 +79,7 @@ export function Navigation() {
                       }
                     }}
                     className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer ${
-                      isPastHero
+                      isVenuesPage || isPastHero
                         ? "text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100"
                         : "text-white hover:bg-white/15"
                     }`}
@@ -90,7 +94,9 @@ export function Navigation() {
                     key={item.label}
                     href={item.path}
                     className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-                      isPastHero
+                      item.path === "/venues"
+                        ? "text-black"
+                        : isVenuesPage || isPastHero
                         ? "text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100"
                         : "text-white hover:bg-white/15"
                     }`}
@@ -106,17 +112,16 @@ export function Navigation() {
           </div>
 
           {!isVenuesPage && (
-  <Link href="/venues" data-testid="link-partner">
-    <Button
-      className={`rounded-full bg-[#B80B0B] hover:bg-[#9a0909] text-white shadow-lg shadow-[#B80B0B]/25 px-6 font-medium border ${
-        isPastHero ? "border-[#B80B0B]/40" : "border-white/30"
-      }`}
-    >
-      Want to be a partner?
-    </Button>
-  </Link>
-)}
-
+            <Link href="/venues" data-testid="link-partner">
+              <Button
+                className={`rounded-full bg-[#B80B0B] hover:bg-[#9a0909] text-white shadow-lg shadow-[#B80B0B]/25 px-6 font-medium border ${
+                  isPastHero ? "border-[#B80B0B]/40" : "border-white/30"
+                }`}
+              >
+                Want to be a partner?
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </motion.nav>

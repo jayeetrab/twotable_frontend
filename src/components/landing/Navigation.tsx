@@ -106,21 +106,17 @@ export function Navigation() {
           </div>
 
           {!isVenuesPage && (
-            <a
-              href="https://twotable.co.uk/venues"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="link-partner"
-            >
-              <Button
-                className={`rounded-full bg-[#B80B0B] hover:bg-[#9a0909] text-white shadow-lg shadow-[#B80B0B]/25 px-6 font-medium border ${
-                  isPastHero ? "border-[#B80B0B]/40" : "border-white/30"
-                }`}
-              >
-                Want to be a partner?
-              </Button>
-            </a>
-          )}
+  <Link href="/venues" data-testid="link-partner">
+    <Button
+      className={`rounded-full bg-[#B80B0B] hover:bg-[#9a0909] text-white shadow-lg shadow-[#B80B0B]/25 px-6 font-medium border ${
+        isPastHero ? "border-[#B80B0B]/40" : "border-white/30"
+      }`}
+    >
+      Want to be a partner?
+    </Button>
+  </Link>
+)}
+
         </div>
       </div>
     </motion.nav>

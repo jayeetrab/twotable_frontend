@@ -21,13 +21,19 @@ export function Navigation() {
   }, []);
 
   const isVenuesPage = location === "/venues";
+  const isHomePage = location === "/";
 
   const items = [
-    { label: "Home", id: "", path: "/", section: null },
-    { label: "How it works", id: "how-it-works", path: "/works", section: null },
-    { label: "About", id: "about", path: "/about", section: null },
-    { label: "FAQ", id: "faq", path: "/", section: "faq" },
+    { label: "Home", sectionId: "hero" },
+    { label: "How it works", sectionId: "see-how-twotable-works" },
+    { label: "About", sectionId: "not-another-dating-app" },
+    { label: "FAQ", sectionId: "faq" },
   ];
+
+  const handleScroll = (sectionId: string) => {
+    const el = document.getElementById(sectionId);
+    el?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <motion.nav
@@ -37,7 +43,6 @@ export function Navigation() {
       transition={{ duration: 0.5, ease: "easeOut" }}
     >
       <div className="relative mx-auto max-w-6xl">
-        {/* Blurred pill background */}
         <div
           className={`absolute inset-0 rounded-full transition-all duration-300 backdrop-blur-xl ${
             isVenuesPage || isPastHero
@@ -46,7 +51,6 @@ export function Navigation() {
           }`}
         />
 
-        {/* Content */}
         <div className="relative flex items-center justify-between px-4 md:px-5 py-2.5">
           <Link href="/" className="cursor-pointer" data-testid="link-home">
             <Logo
@@ -66,17 +70,13 @@ export function Navigation() {
               }`}
             >
               {items.map((item) =>
-                item.section ? (
+                isHomePage ? (
+                  // On home, smooth scroll to sections
                   <button
                     key={item.label}
                     onClick={(e) => {
                       e.preventDefault();
-                      if (window.location.pathname !== "/") {
-                        window.location.href = "/#faq";
-                      } else {
-                        const el = document.getElementById(item.section);
-                        el?.scrollIntoView({ behavior: "smooth" });
-                      }
+                      handleScroll(item.sectionId);
                     }}
                     className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200 cursor-pointer ${
                       isVenuesPage || isPastHero
@@ -90,13 +90,16 @@ export function Navigation() {
                     {item.label}
                   </button>
                 ) : (
-                  <Link
+                  // On other pages, just go back to home with hash
+                  <a
                     key={item.label}
-                    href={item.path}
+                    href={
+                      item.sectionId === "hero"
+                        ? "/"
+                        : `/#${item.sectionId}`
+                    }
                     className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
-                      item.path === "/venues"
-                        ? "text-black"
-                        : isVenuesPage || isPastHero
+                      isVenuesPage || isPastHero
                         ? "text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100"
                         : "text-white hover:bg-white/15"
                     }`}
@@ -105,7 +108,7 @@ export function Navigation() {
                       .replace(/\s+/g, "-")}`}
                   >
                     {item.label}
-                  </Link>
+                  </a>
                 ),
               )}
             </div>

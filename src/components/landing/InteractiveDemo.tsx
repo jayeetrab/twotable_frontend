@@ -1434,7 +1434,7 @@ const lockTimeAndGoConfirm = () => {
     <section id="demo" className="py-16 md:py-20 bg-background">
       <div className="container mx-auto px-4 md:px-6">
         {/* Header */}
-        <AnimatedSection className="text-center mb-12 md:mb-16">
+        <AnimatedSection className="text-center mb-12 md:mb-16 ">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}

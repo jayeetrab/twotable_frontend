@@ -76,11 +76,11 @@ export function Comparison() {
           </span>
 
           <motion.h2
-            initial={{ opacity: 0, y: 24, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ delay: 0.15, duration: 0.6, ease: "easeOut" }}
-            className="mt-3 font-display text-3xl md:text-4xl lg:text-[2.6rem] font-semibold tracking-tight text-neutral-900 leading-tight"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="mt-2 text-3xl md:text-5xl font-bold text-neutral-900 leading-tight"
           >
             Not another dating app
             <RedDot />

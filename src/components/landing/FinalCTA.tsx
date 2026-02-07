@@ -40,10 +40,17 @@ export function FinalCTA() {
               </motion.div>
 
               {/* Heading */}
-              <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-neutral-900 mb-4 leading-tight">
-                Ready for dates that already have a table
-                <RedDot />
-              </h2>
+            
+              <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2, duration: 0.6 }}
+            className="mt-2 text-3xl md:text-5xl font-bold text-neutral-900 leading-tight"
+          >
+            Ready for dates that already have a table
+            <RedDot />
+          </motion.h2>
 
               {/* Copy */}
               <p className="text-sm md:text-base lg:text-lg text-neutral-600 mb-8 max-w-xl mx-auto">

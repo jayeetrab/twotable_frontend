@@ -368,7 +368,8 @@ const lockTimeAndGoConfirm = () => {
   }
 };
 
-
+const [hasSeenGuide, setHasSeenGuide] = useState(false);
+const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
 
   const demoScreens = [
     {

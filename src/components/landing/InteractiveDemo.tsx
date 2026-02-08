@@ -1432,45 +1432,46 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
   const active = demoScreens.find((s) => s.id === currentScreen)!;
 
   return (
-    <section id="demo" className="py-16 md:py-20 bg-background">
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Header */}
-        <AnimatedSection className="text-center mb-12 md:mb-16 ">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1, duration: 0.5 }}
-            className="inline-block mb-3"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-700">
-              <span className="inline-block h-2 w-2 rounded-full bg-[#B80B0B]" />
-              Experience TwoTable
-            </span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2, duration: 0.6 }}
-            className="mt-2 text-3xl md:text-5xl font-bold text-neutral-900 leading-tight"
-          >
-            See how TwoTable works
-            <RedDot />
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.6 }}
-            className="mt-3 text-base md:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed"
-          >
-            Tap through the journey like a modern dating app – from your profile,
-            to a match you love, to a table within 45 minutes that suits you both.
-          </motion.p>
-        </AnimatedSection>
+  <section
+    id="see-how-twotable-works"
+    className="py-16 md:py-20 bg-background"
+  >
+    <div className="container mx-auto px-4 md:px-6">
+      {/* Header */}
+      <AnimatedSection className="text-center mb-12 md:mb-16 ">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.1, duration: 0.5 }}
+          className="inline-block mb-3"
+        >
+          <span className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-neutral-700">
+            <span className="inline-block h-2 w-2 rounded-full bg-[#B80B0B]" />
+            Experience TwoTable
+          </span>
+        </motion.div>
+        <motion.h2
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className="mt-2 text-3xl md:text-5xl font-bold text-neutral-900 leading-tight"
+        >
+          See how TwoTable works
+          <RedDot />
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="mt-3 text-base md:text-lg text-neutral-600 max-w-2xl mx-auto leading-relaxed"
+        >
+          Tap through the journey like a modern dating app – from your profile,
+          to a match you love, to a table within 45 minutes that suits you both.
+        </motion.p>
+      </AnimatedSection>
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 md:gap-14">
           
           {/* Phone mockup */}
@@ -1535,19 +1536,26 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
 
 
                   {/* in‑app round next button */}
-                  {currentScreen < 9 && currentScreen !== 4 && currentScreen !== 5 &&  (
-  <div className="absolute bottom-4 right-4">
-    <button
+{currentScreen < 9 && currentScreen !== 4 && currentScreen !== 5 && (
+  <div className="absolute bottom-4 right-4 z-20">
+    <motion.button
       type="button"
-      onClick={goNext}
-      className="h-11 w-11 rounded-full bg-[#B80B0B] flex items-center justify-center shadow-[0_14px_35px_rgba(184,11,11,0.55)] border border-white/40"
+      onClick={() => {
+        setHasSeenGuide(true);
+        goNext();
+      }}
+      className="h-11 w-11 rounded-full bg-[#B80B0B] flex items-center justify-center shadow-[0_18px_40px_rgba(184,11,11,0.6)] border border-white/40"
+      whileHover={{
+        scale: 1.08,
+        boxShadow: "0 22px 55px rgba(184,11,11,0.75)",
+      }}
+      whileTap={{ scale: 0.9 }}
+      transition={{ type: "spring", stiffness: 260, damping: 20 }}
     >
       <ChevronRight className="w-5 h-5 text-white" />
-    </button>
+    </motion.button>
   </div>
-)}
-
-                </div>
+)}           </div>
               </div>
 
               {/* external arrows (desktop only) */}

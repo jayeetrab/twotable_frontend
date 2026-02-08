@@ -6,7 +6,8 @@ import { WaitlistForm } from '@/components/landing/WaitlistForm';
 import { Comparison } from '@/components/landing/Comparison';
 import { FinalCTA } from '@/components/landing/FinalCTA';
 import { Footer } from '@/components/landing/Footer';
-
+import { FAQ } from '@/components/landing/FAQ';
+ 
 const Index = () => {
   return (
     <div className="min-h-screen bg-white">
@@ -17,8 +18,9 @@ const Index = () => {
         <InteractiveDemo />
         <WaitlistForm />
         <Comparison />
-        
+        <FAQ/>
         <FinalCTA />
+        
       </main>
       <Footer />
     </div>

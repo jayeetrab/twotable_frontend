@@ -26,8 +26,8 @@ export function Navigation() {
   const items = [
     { label: "Home", sectionId: "hero" },
     { label: "How it works", sectionId: "see-how-twotable-works" },
-    { label: "About", sectionId: "not-another-dating-app" },
-    { label: "FAQ", sectionId: "faq" },
+    { label: "About", sectionId: "why-different" },
+    { label: "FAQ", sectionId: "FAQ" },
   ];
 
   const handleScroll = (sectionId: string) => {

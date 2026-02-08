@@ -459,47 +459,49 @@ const showGuide = currentScreen === 1 && !hasSeenGuide;
         <p className="text-[11px] text-neutral-500 mb-2">Date energy</p>
         <div className="relative flex text-[11px] font-medium rounded-full bg-neutral-100 p-1">
           {["Slow dinner", "Wine bar", "Low‑key drinks"].map((label, idx) => {
-            const targetLookingFor =
-              idx === 0
-                ? "Long-term"
-                : idx === 1
-                ? "Something casual"
-                : "Open to either";
-            const active = preferences.lookingFor === targetLookingFor;
-            return (
-              <button
-                key={label}
-                type="button"
-                onClick={() =>
-  setPreferences((prev) => ({
-    ...prev,
-    lookingFor: targetLookingFor as PreferencesState["lookingFor"],
-  }))
-}
+  const targetLookingFor =
+    idx === 0
+      ? "Long-term"
+      : idx === 1
+      ? "Something casual"
+      : "Open to either";
+  const active = preferences.lookingFor === targetLookingFor;
 
-                className="relative flex-1 px-2 py-1.5"
-              >
-                {active && (
-                  <motion.div
-                    layoutId="dateEnergyPill"
-                    className="absolute inset-0 rounded-full bg-[#B80B0B]"
-                    transition={{
-                      type: "spring",
-                      stiffness: 320,
-                      damping: 26,
-                    }}
-                  />
-                )}
-                <span
-                  className={`relative z-10 ${
-                    active ? "text-white" : "text-neutral-700"
-                  }`}
-                >
-                  {label}
-                </span>
-              </button>
-            );
-          })}
+  return (
+    <button
+      key={label}
+      type="button"
+      onClick={() =>
+        setPreferences((prev) => ({
+          ...prev,
+          lookingFor: targetLookingFor as PreferencesState["lookingFor"],
+        }))
+      }
+      className="relative flex-1 px-2 py-1.5"
+    >
+      {active && (
+        <motion.div
+          layoutId="dateEnergyPill"
+          className="absolute inset-0 rounded-full bg-[#B80B0B]"
+          transition={{
+            type: "spring",
+            stiffness: 320,
+            damping: 26,
+          }}
+        />
+      )}
+
+      <span
+        className={`relative z-10 transition-colors ${
+          active ? "text-white" : "text-neutral-700"
+        }`}
+      >
+        {label}
+      </span>
+    </button>
+  );
+})}
+
         </div>
         <p className="mt-2 text-[11px] text-neutral-500">
           This sets the kind of venue, lighting and noise level we look for.

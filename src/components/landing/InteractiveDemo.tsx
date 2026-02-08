@@ -29,7 +29,10 @@ type ProfileState = {
 
 type PreferencesState = {
   lookingFor: "Long-term" | "Something casual" | "Open to either";
+  distance: "5 miles" | "10 miles" | "15 miles+";
+  ageWindow: "25–33" | "27–35" | "30–40";
 };
+
 
 type MatchState = {
   progress: number;
@@ -131,8 +134,11 @@ export function InteractiveDemo() {
     selectedTags: ["Foodie", "Traveler"],
   });
   const [preferences, setPreferences] = useState<PreferencesState>({
-    lookingFor: "Long-term",
-  });
+  lookingFor: "Something casual",
+  distance: "15 miles+",
+  ageWindow: "27–35",
+});
+
   const [matchState, setMatchState] = useState<MatchState>({ progress: 0 });
   const [booking, setBooking] = useState<BookingState>({
     restaurant: null,
@@ -369,7 +375,8 @@ const lockTimeAndGoConfirm = () => {
 };
 
 const [hasSeenGuide, setHasSeenGuide] = useState(false);
-const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
+const showGuide = currentScreen === 1 && !hasSeenGuide;
+
 
   const demoScreens = [
     {
@@ -449,9 +456,7 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
     <div className="p-4 space-y-4 pb-6">
       {/* date energy pill tabs (white + red) */}
       <div className="rounded-2xl bg-white border border-neutral-200 p-3 shadow-sm">
-        <p className="text-[11px] text-neutral-500 mb-2">
-          Date energy
-        </p>
+        <p className="text-[11px] text-neutral-500 mb-2">Date energy</p>
         <div className="relative flex text-[11px] font-medium rounded-full bg-neutral-100 p-1">
           {["Slow dinner", "Wine bar", "Low‑key drinks"].map((label, idx) => {
             const targetLookingFor =
@@ -466,16 +471,18 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
                 key={label}
                 type="button"
                 onClick={() =>
-                  setPreferences({
-                    lookingFor: targetLookingFor as PreferencesState["lookingFor"],
-                  })
-                }
+  setPreferences((prev) => ({
+    ...prev,
+    lookingFor: targetLookingFor as PreferencesState["lookingFor"],
+  }))
+}
+
                 className="relative flex-1 px-2 py-1.5"
               >
                 {active && (
                   <motion.div
                     layoutId="dateEnergyPill"
-                    className="absolute inset-0 rounded-full bg-[#B80B0B] text-white"
+                    className="absolute inset-0 rounded-full bg-[#B80B0B]"
                     transition={{
                       type: "spring",
                       stiffness: 320,
@@ -501,20 +508,27 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
 
       {/* distance + age – fully selectable chips */}
       <div className="rounded-2xl bg-white border border-neutral-200 p-3 space-y-3 shadow-sm">
+        {/* Distance */}
         <div className="space-y-1">
           <p className="text-[11px] text-neutral-500">Distance</p>
           <div className="flex gap-1.5">
             {["5 miles", "10 miles", "15 miles+"].map((label) => {
-              const active = label === "15 miles+"; // demo default
+              const active = preferences.distance === label;
               return (
                 <motion.button
                   key={label}
                   type="button"
                   whileTap={{ scale: 0.96 }}
-                  className={`px-2.5 py-1 rounded-full text-[11px] border ${
+                  onClick={() =>
+                    setPreferences((prev) => ({
+                      ...prev,
+                      distance: label as PreferencesState["distance"],
+                    }))
+                  }
+                  className={`px-2.5 py-1 rounded-full text-[11px] border transition-colors ${
                     active
-                      ? "bg-[#B80B0B] text-white border-[#B80B0B]"
-                      : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                      ? "bg-[#B80B0B] text-white border-[#B80B0B] shadow-sm"
+                      : "bg-neutral-50 text-neutral-700 border-neutral-200 hover:bg-neutral-100"
                   }`}
                 >
                   {label}
@@ -524,20 +538,27 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
           </div>
         </div>
 
+        {/* Age window */}
         <div className="space-y-1">
           <p className="text-[11px] text-neutral-500">Age window</p>
           <div className="flex gap-1.5">
             {["25–33", "27–35", "30–40"].map((label) => {
-              const active = label === "27–35";
+              const active = preferences.ageWindow === label;
               return (
                 <motion.button
                   key={label}
                   type="button"
                   whileTap={{ scale: 0.96 }}
-                  className={`px-2.5 py-1 rounded-full text-[11px] border ${
+                  onClick={() =>
+                    setPreferences((prev) => ({
+                      ...prev,
+                      ageWindow: label as PreferencesState["ageWindow"],
+                    }))
+                  }
+                  className={`px-2.5 py-1 rounded-full text-[11px] border transition-colors ${
                     active
-                      ? "bg-[#B80B0B] text-white border-[#B80B0B]"
-                      : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                      ? "bg-[#B80B0B] text-white border-[#B80B0B] shadow-sm"
+                      : "bg-neutral-50 text-neutral-700 border-neutral-200 hover:bg-neutral-100"
                   }`}
                 >
                   {label}
@@ -561,7 +582,6 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
             "Sharing plates",
             "Short and sweet",
           ].map((tag) => {
-            // simple demo: selected if it’s in profile.selectedTags
             const selected = profile.selectedTags.includes(tag);
             return (
               <motion.button
@@ -569,10 +589,10 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
                 type="button"
                 whileTap={{ scale: 0.95 }}
                 onClick={() => toggleTag(tag)}
-                className={`px-2.5 py-1 rounded-full text-[11px] border ${
+                className={`px-2.5 py-1 rounded-full text-[11px] border transition-colors ${
                   selected
-                    ? "bg-[#B80B0B] text-white border-[#B80B0B]"
-                    : "bg-neutral-50 text-neutral-700 border-neutral-200"
+                    ? "bg-[#B80B0B] text-white border-[#B80B0B] shadow-sm"
+                    : "bg-neutral-50 text-neutral-700 border-neutral-200 hover:bg-neutral-100"
                 }`}
               >
                 {tag}
@@ -587,6 +607,7 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
     </div>
   ),
 }
+
 
 ,
     {
@@ -1474,109 +1495,185 @@ const isFirstScreen = currentScreen === 1 && !hasSeenGuide;
       </AnimatedSection>
         <div className="flex flex-col lg:flex-row items-center justify-center gap-10 md:gap-14">
           
-          {/* Phone mockup */}
-          <AnimatedSection>
-            <div className="relative">
-              {/* modern device frame */}
-              <div className="relative w-[290px] h-[600px] rounded-[2.6rem] bg-gradient-to-b from-neutral-900 to-black p-2 shadow-[0_30px_90px_rgba(0,0,0,0.7)] border border-white/10">
-                <div className="relative w-full h-full rounded-[2.1rem] bg-background overflow-hidden">
-                  {/* dynamic island */}
-<div className="absolute top-3 left-1/2 -translate-x-1/2">
-      <div
-        className="w-24 h-6 rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
-        style={{ backgroundColor: "#000000" }}
-      />
-    </div>
-  {/* header: back + brand */}
-                  <div className="relative z-10 flex items-center justify-between px-3 pt-8 pb-3 bg-background/95">
-                    <button
-                      type="button"
-                      onClick={goBack}
-                      disabled={currentScreen === 1}
-                      className="h-8 w-8 rounded-full flex items-center justify-center text-neutral-700 hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                    </button>
-                    <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-neutral-500">
-                      TwoTable
-                    </p>
-                    <div className="h-8 w-8" />
-                  </div>
+          {/* Phone + guide pill */}
+          {/* Phone + guide pill */}
+<AnimatedSection>
+  <div className="relative flex flex-col items-center gap-4">
+    {/* Phone mockup */}
+    <div className="relative">
+      {/* modern device frame */}
+      <div className="relative w-[290px] h-[600px] rounded-[2.6rem] bg-gradient-to-b from-neutral-900 to-black p-2 shadow-[0_30px_90px_rgba(0,0,0,0.7)] border border-white/10">
+        <div className="relative w-full h-full rounded-[2.1rem] bg-background overflow-hidden">
+          {/* dynamic island */}
+          <div className="absolute top-3 left-1/2 -translate-x-1/2">
+            <div
+              className="w-24 h-6 rounded-full shadow-[0_0_0_1px_rgba(255,255,255,0.1)]"
+              style={{ backgroundColor: "#000000" }}
+            />
+          </div>
 
-                  {/* title bar */}
-                  <div className="px-4 py-2 bg-background/95 border-b border-border">
-                    <h3 className="text-sm font-semibold text-neutral-900">
-                      {active.title}
-                    </h3>
-                    <p className="text-[11px] text-neutral-500">
-                      {active.subtitle}
-                    </p>
-                  </div>
+          {/* header: back + brand */}
+          <div className="relative z-10 flex items-center justify-between px-3 pt-8 pb-3 bg-background/95">
+            <button
+              type="button"
+              onClick={goBack}
+              disabled={currentScreen === 1}
+              className="h-8 w-8 rounded-full flex items-center justify-center text-neutral-700 hover:bg-muted disabled:opacity-30 disabled:hover:bg-transparent"
+            >
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <p className="text-[11px] font-semibold tracking-[0.18em] uppercase text-neutral-500">
+              TwoTable
+            </p>
+            <div className="h-8 w-8" />
+          </div>
 
-                  {/* content */}
-                  {/* content – scrolls inside the phone, not the page */}
-{/* content – scrolls inside the phone, not the page */}
-<div className="flex-1 overflow-hidden">
-  <AnimatePresence mode="wait">
-    <motion.div
-      key={currentScreen}
-      initial={{ opacity: 0, y: 18 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -18 }}
-      transition={{
-        duration: 0.35,
-        ease: [0.22, 0.61, 0.36, 1],
-      }}
-      className="h-full max-h-[480px] overflow-y-auto no-scrollbar overscroll-contain"
-    >
-      {active.content}
-    </motion.div>
-  </AnimatePresence>
-</div>
+          {/* title bar */}
+          <div className="px-4 py-2 bg-background/95 border-b border-border">
+            <h3 className="text-sm font-semibold text-neutral-900">
+              {active.title}
+            </h3>
+            <p className="text-[11px] text-neutral-500">
+              {active.subtitle}
+            </p>
+          </div>
 
+          {/* content – scrolls inside the phone */}
+          <div className="flex-1 overflow-hidden">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentScreen}
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -18 }}
+                transition={{
+                  duration: 0.35,
+                  ease: [0.22, 0.61, 0.36, 1],
+                }}
+                className="h-full max-h-[480px] overflow-y-auto no-scrollbar overscroll-contain"
+              >
+                {active.content}
+              </motion.div>
+            </AnimatePresence>
+          </div>
 
-                  {/* in‑app round next button */}
-{currentScreen < 9 && currentScreen !== 4 && currentScreen !== 5 && (
-  <div className="absolute bottom-4 right-4 z-20">
-    <motion.button
-      type="button"
-      onClick={() => {
-        setHasSeenGuide(true);
-        goNext();
-      }}
-      className="h-11 w-11 rounded-full bg-[#B80B0B] flex items-center justify-center shadow-[0_18px_40px_rgba(184,11,11,0.6)] border border-white/40"
-      whileHover={{
-        scale: 1.08,
-        boxShadow: "0 22px 55px rgba(184,11,11,0.75)",
-      }}
-      whileTap={{ scale: 0.9 }}
-      transition={{ type: "spring", stiffness: 260, damping: 20 }}
-    >
-      <ChevronRight className="w-5 h-5 text-white" />
-    </motion.button>
-  </div>
-)}           </div>
+          {/* glowing next button */}
+          {currentScreen < 9 &&
+            currentScreen !== 4 &&
+            currentScreen !== 5 && (
+              <div className="absolute bottom-4 right-4 z-40">
+                <motion.button
+                  type="button"
+                  onClick={() => {
+                    setHasSeenGuide(true);
+                    goNext();
+                  }}
+                  className="relative h-12 w-12 rounded-full bg-gradient-to-br from-[#F04438] via-[#DC2626] to-[#B80B0B] flex items-center justify-center text-white"
+                  whileHover={{ scale: 1.08 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 260,
+                    damping: 20,
+                  }}
+                >
+                  
+                  
+                  <ChevronRight className="relative z-10 w-5 h-5" />
+                </motion.button>
               </div>
+            )}
+        </div>
+      </div>
+    </div>
 
-              {/* external arrows (desktop only) */}
-              <motion.button
-                onClick={goBack}
-                disabled={currentScreen === 1}
-                whileHover={currentScreen === 1 ? {} : { y: -2 }}
-                whileTap={currentScreen === 1 ? {} : { scale: 0.96 }}
-              >
+    {/* Guide pill below phone */}
+    <AnimatePresence>
+      {showGuide && (
+        <motion.div
+          className="mt-2 inline-flex items-center gap-3 rounded-full bg-white/95 px-5 py-3 text-[13px] md:text-sm font-medium text-slate-900 shadow-[0_18px_60px_rgba(15,23,42,0.22)] border border-white/80"
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 4 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+        >
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inset-0 rounded-full bg-[#F04438]/35 blur-[2px]" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-[#F04438]" />
+          </span>
+          <span> Ready? Hit the red button to begin</span>
+        </motion.div>
+      )}
+    </AnimatePresence>
 
-              </motion.button>
-              <motion.button
-                onClick={goNext}
-                disabled={currentScreen === 9}
-                whileHover={currentScreen === 9 ? {} : { y: -2 }}
-                whileTap={currentScreen === 9 ? {} : { scale: 0.96 }}
-              >
+    {/* Arrow from pill (outside) into phone */}
+    <AnimatePresence>
+      {showGuide && (
+        <motion.div
+          className="pointer-events-none absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+        >
+          <motion.svg
+  className="absolute text-black/90
+             left-1 bottom-10
+             -translate-x-1/2 translate-y-[35%]"
+  width="300"
+  height="100"
+  viewBox="0 0 360 220"
+  initial={{ opacity: 0, y: 4 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.15, duration: 0.5 }}
+>
 
-              </motion.button>
-            </div>
-          </AnimatedSection>
+            {/* Start (20,170) near pill, end (310,70) at button */}
+            <motion.path
+              d="M2 1700 C 120 150, 20 110, 310 70"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="4.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="3 8"
+              initial={{ pathLength: 0, strokeDashoffset: 0 }}
+              animate={{
+                pathLength: 1,
+                strokeDashoffset: [0, -28],
+              }}
+              transition={{
+                pathLength: {
+                  delay: 0.3,
+                  duration: 0.9,
+                  ease: "easeInOut",
+                },
+                strokeDashoffset: {
+                  delay: 1.0,
+                  duration: 1.0,
+                  repeat: Infinity,
+                  ease: "linear",
+                },
+              }}
+            />
+            <motion.path
+              d="M298 64 310 70 L300 78"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="4.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ opacity: 0, scale: 0.9, rotate: -5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ delay: 0.9, duration: 0.2, ease: "easeOut" }}
+            />
+          </motion.svg>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </div>
+</AnimatedSection>
+
 
           {/* step indicators */}
           <AnimatedSection className="lg:pl-6 w-full lg:w-auto">

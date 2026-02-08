@@ -105,7 +105,7 @@ export function VaraTagline() {
       style={{
         width: "100%",
         maxWidth: "640px",
-        minHeight: window.innerWidth < 640 ? "70px" : "90px",
+        minHeight: window.innerWidth < 640 ? "40px" : "90px",
         overflow: "visible",
         position: "relative",
         paddingTop: window.innerWidth < 640 ? "6px" : "10px",

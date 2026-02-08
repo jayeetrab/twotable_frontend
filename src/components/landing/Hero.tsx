@@ -1,8 +1,10 @@
+// components/landing/Hero.tsx
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { ChevronDown } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
-import { Logo, RedDot } from "@/components/landing/Logo";
+import { RedDot } from "@/components/landing/Logo";
+import { VaraTagline } from "@/components/VaraTagline";
 
 export function Hero() {
   const scrollToWaitlist = () => {
@@ -51,27 +53,24 @@ export function Hero() {
               Dating, but with a table
             </motion.p>
 
-            {/* Main headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.08, duration: 0.45 }}
-              className="mt-3 text-balance text-5xl md:text-[4.3rem] leading-tight font-logo font-bold tracking-[-0.02em] text-white"
-            >
-              Love,{" "}
-              <span className="text-[#B80B0B]">
-                reserved
-              </span>{" "}
-              for two
-              <RedDot />
-            </motion.h1>
+            {/* Accessible H1, hidden visually */}
+            <h1 className="sr-only">
+              Love, reserved for two
+            </h1>
 
-            {/* Supporting lines */}
+            {/* Vara animated tagline */}
+            <VaraTagline />
+
+            {/* <div className="mt-0 flex justify-center">
+              <RedDot />
+            </div> */}
+
+            {/* Supporting lines - significantly reduced margin-top */}
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.14, duration: 0.4 }}
-              className="mt-4 text-base md:text-lg text-white/80 max-w-2xl mx-auto"
+              className="mt-1 text-base md:text-lg text-white/80 max-w-2xl mx-auto"
             >
               TwoTable is a dating app that skips endless chat and plans the whole
               date around the table – we match you with someone compatible, then
@@ -82,7 +81,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.18, duration: 0.4 }}
-              className="mt-2 text-xs md:text-sm text-white/70 max-w-xl mx-auto"
+              className="mt-1.5 text-xs md:text-sm text-white/70 max-w-xl mx-auto"
             >
               Instead of &quot;grab a drink anywhere&quot;, TwoTable finds the person and the
               place together – so you&apos;re walking into a real date, not just another
@@ -94,7 +93,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-8"
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-5"
             >
               <Button
                 variant="hero"
@@ -117,7 +116,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.35 }}
-              className="mt-6 flex flex-wrap justify-center gap-3 text-[11px] md:text-xs text-white/80"
+              className="mt-4 flex flex-wrap justify-center gap-3 text-[11px] md:text-xs text-white/80"
             >
               <span className="inline-flex items-center gap-1 rounded-full bg-black/60 px-3 py-1">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#B80B0B]" />

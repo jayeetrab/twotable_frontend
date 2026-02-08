@@ -14,7 +14,7 @@ export function Hero() {
   };
 
   const scrollToDemo = () => {
-    document.getElementById("demo")?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById("see-how-twotable-works")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (

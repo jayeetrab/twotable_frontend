@@ -17,7 +17,7 @@ export function VaraTagline() {
       [
         {
           text: "Love, reserved for two.",
-          fontSize: isMobile ? 30 : 42,   // smaller on mobile
+          fontSize: isMobile ? 25 : 42,   // smaller on mobile
           strokeWidth: isMobile ? 2 : 2.5,
           color: "#FFFFFF",
           textAlign: "center",

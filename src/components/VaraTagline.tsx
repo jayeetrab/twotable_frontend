@@ -17,7 +17,7 @@ export function VaraTagline() {
       [
         {
           text: "Love, reserved for two.",
-          fontSize: isMobile ? 20 : 42,   // smaller on mobile
+          fontSize: isMobile ? 22 : 42,   // smaller on mobile
           strokeWidth: isMobile ? 2 : 2.5,
           color: "#FFFFFF",
           textAlign: "center",
@@ -99,19 +99,19 @@ export function VaraTagline() {
   }, []);
 
   return (
-    <div className="mt-1 flex justify-center">
-      <div
-        id={id}
-        style={{
-          width: "100%",
-          maxWidth: "640px",
-          minHeight: "90px",
-          overflow: "visible",
-          position: "relative",
-          paddingTop: "10px",
-          paddingBottom: "0px",
-        }}
-      />
-    </div>
-  );
+  <div className="mt-1 flex justify-center">
+    <div
+      id={id}
+      style={{
+        width: "100%",
+        maxWidth: "640px",
+        minHeight: window.innerWidth < 640 ? "70px" : "90px",
+        overflow: "visible",
+        position: "relative",
+        paddingTop: window.innerWidth < 640 ? "6px" : "10px",
+        paddingBottom: "0px",
+      }}
+    />
+  </div>
+);
 }

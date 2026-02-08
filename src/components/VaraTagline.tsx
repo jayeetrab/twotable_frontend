@@ -9,14 +9,16 @@ export function VaraTagline() {
     const el = document.getElementById(id);
     if (el) el.innerHTML = "";
 
+    const isMobile = window.innerWidth < 640; // Tailwind sm breakpoint
+
     const vara = new Vara(
       `#${id}`,
       "https://raw.githubusercontent.com/akzhy/Vara/master/fonts/Parisienne/Parisienne.json",
       [
         {
           text: "Love, reserved for two.",
-          fontSize: 42,          // ↓ slightly smaller
-          strokeWidth: 2.5,
+          fontSize: isMobile ? 30 : 42,   // smaller on mobile
+          strokeWidth: isMobile ? 2 : 2.5,
           color: "#FFFFFF",
           textAlign: "center",
           duration: 3500,
@@ -38,11 +40,9 @@ export function VaraTagline() {
         ) as SVGSVGElement | null;
         if (!svg) return;
 
-        // Scale everything down a bit vertically so ascenders fit
         const rootGroup = svg.querySelector("g");
         if (rootGroup) {
           const existing = rootGroup.getAttribute("transform") ?? "";
-          // scale X = 1 (same width), scale Y = 0.9 (10% shorter)
           rootGroup.setAttribute(
             "transform",
             `${existing} scale(1,1.1)`
@@ -56,7 +56,7 @@ export function VaraTagline() {
         const { characters } = obj;
         if (!characters || !characters.length) return;
 
-        // "Love, reserved for two." => reserved = indices 6..13
+        // reserved = indices 6..13
         const start = 6;
         const end = 13;
 
@@ -72,6 +72,8 @@ export function VaraTagline() {
             });
           }, delay);
         }
+
+        // dot at the end (you already target index 22)
         const start1 = 22;
         const end1 = 22;
 
